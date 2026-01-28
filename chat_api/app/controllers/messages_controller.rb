@@ -11,11 +11,11 @@ class MessagesController < ApplicationController
                       .order(created_at: :desc) # Mais recentes primeiro para paginação funcionar bem
                       .page(params[:page]).per(10) # Kaminari: 10 por página
 
-    # Serialização manual para incluir a URL do arquivo
-    render json: {
-      messages: messages.reverse.map { |msg| message_data(msg) }, # Inverte de volta para exibir cronológico
+    # Serialização com jsonapi-serializer
+    options = {
       meta: { current_page: messages.current_page, total_pages: messages.total_pages }
     }
+    render json: MessageSerializer.new(messages.reverse, options).serializable_hash
   end
 
   # POST /messages
@@ -23,7 +23,7 @@ class MessagesController < ApplicationController
     message = Message.new(message_params.merge(sender: @current_user))
     
     if message.save
-      render json: message_data(message), status: :created
+      render json: MessageSerializer.new(message).serializable_hash, status: :created
     else
       render json: message.errors, status: :unprocessable_entity
     end
@@ -33,15 +33,5 @@ class MessagesController < ApplicationController
 
   def message_params
     params.permit(:content, :receiver_id, :file) # Permitir :file
-  end
-
-  def message_data(msg)
-    {
-      id: msg.id,
-      content: msg.content,
-      sender_id: msg.sender_id,
-      file_url: msg.file.attached? ? url_for(msg.file) : nil,
-      created_at: msg.created_at
-    }
   end
 end
