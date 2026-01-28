@@ -4,63 +4,64 @@ puts "🗑️  Limpando banco de dados..."
 Message.destroy_all
 User.destroy_all
 
-puts "👤 Criando usuários..."
-# A senha é definida via password_digest (has_secure_password)
-# Estamos fixando a senha '123456' para facilitar seus testes
+puts "🏢 Criando ambiente corporativo..."
+default_pass = '123456'
 
-matheus = User.create!(
-  username: 'Matheus',
-  password: '123456',
-  password_confirmation: '123456'
+# Usuário principal (Você)
+dev = User.create!(
+  username: 'Matheus_Dev',
+  password: default_pass,
+  password_confirmation: default_pass
 )
 
-recrutador = User.create!(
-  username: 'Recrutador',
-  password: '123456',
-  password_confirmation: '123456'
+# Gerente de Produto
+pm = User.create!(
+  username: 'Alice_ProductManager',
+  password: default_pass,
+  password_confirmation: default_pass
 )
 
-colega = User.create!(
-  username: 'DevTeam',
-  password: '123456',
-  password_confirmation: '123456'
+# Designer (Para testar o chat secundário)
+designer = User.create!(
+  username: 'Bruno_Designer',
+  password: default_pass,
+  password_confirmation: default_pass
 )
 
-puts "✅ Usuários criados:"
-puts "   1. Matheus (Senha: 123456)"
-puts "   2. Recrutador (Senha: 123456)"
-puts "   3. DevTeam (Senha: 123456)"
+puts "✅ Equipe criada:"
+puts "   1. #{dev.username}"
+puts "   2. #{pm.username}"
+puts "   3. #{designer.username}"
 
-puts "💬 Gerando conversa entre Matheus e Recrutador (Teste de Paginação)..."
+puts "📅 Simulando Daily/Sprint Planning..."
 
-# Mensagens antigas
-conversas = [
-  { sender: recrutador, receiver: matheus, content: "Olá Matheus, vi seu perfil no GitHub." },
-  { sender: matheus, receiver: recrutador, content: "Olá! Obrigado, estou muito interessado na vaga." },
-  { sender: recrutador, receiver: matheus, content: "Gostamos dos seus projetos em Vue.js." },
-  { sender: matheus, receiver: recrutador, content: "Obrigado! Tenho focado bastante em componentização." },
-  { sender: recrutador, receiver: matheus, content: "E sobre Ruby on Rails, qual sua experiência?" },
-  { sender: matheus, receiver: recrutador, content: "Trabalho com Rails API e gosto muito do Active Record." },
-  { sender: recrutador, receiver: matheus, content: "Perfeito. Vamos agendar uma entrevista técnica?" },
-  { sender: matheus, receiver: recrutador, content: "Claro! Tenho disponibilidade amanhã à tarde." },
-  { sender: recrutador, receiver: matheus, content: "Combinado. Vou te mandar o link do Meet." },
-  { sender: matheus, receiver: recrutador, content: "Fico no aguardo." },
-  { sender: recrutador, receiver: matheus, content: "Link enviado por email!" },
-  { sender: matheus, receiver: recrutador, content: "Recebido. Até lá!" }
+# Conversa focada em entrega de tarefas
+sprint_chat = [
+  { sender: pm, receiver: dev, content: "Bom dia, Matheus. Como estamos com a entrega da API?" },
+  { sender: dev, receiver: pm, content: "Bom dia, Alice. O backend está 90% pronto." },
+  { sender: pm, receiver: dev, content: "Ótimo. O endpoint de login já está com JWT?" },
+  { sender: dev, receiver: pm, content: "Sim, implementei ontem. Já fiz os testes de carga também." },
+  { sender: dev, receiver: pm, content: "Falta apenas ajustar o upload de arquivos no S3." },
+  { sender: pm, receiver: dev, content: "Perfeito. O cliente pediu prioridade nisso." },
+  { sender: pm, receiver: dev, content: "Você acha que conseguimos subir para homologação hoje à tarde?" },
+  { sender: dev, receiver: pm, content: "Acredito que sim. Vou fazer o Merge Request antes do almoço." },
+  { sender: pm, receiver: dev, content: "Combinado. Vou avisar a equipe de QA para ficarem atentos." },
+  { sender: dev, receiver: pm, content: "Ok, qualquer bloqueio eu te aviso no Slack." },
+  { sender: pm, receiver: dev, content: "Obrigada, bom trabalho!" },
+  { sender: dev, receiver: pm, content: "Valeu!" }
 ]
 
-conversas.each do |msg|
+sprint_chat.each do |msg|
   Message.create!(msg)
-  # Pequeno delay para garantir timestamps diferentes (ajuda na ordenação)
-  sleep(0.1) 
+  sleep(0.1) # Garante a ordem cronológica correta
 end
 
-puts "💬 Gerando conversa com DevTeam (Teste de Chat Vazio/Novo)..."
+puts "🎨 Simulando entrega de assets (Outro chat)..."
 Message.create!(
-  sender: colega, 
-  receiver: matheus, 
-  content: "E aí Matheus, bora codar o desafio?"
+  sender: designer, 
+  receiver: dev, 
+  content: "Fala Matheus! Acabei de exportar os ícones novos. Vou te mandar o anexo na próxima mensagem."
 )
 
-puts "🏁 Seeds concluídos com sucesso!"
-puts "🚀 Agora rode 'rails server' e teste o login com usuário 'Matheus' e senha '123456'."
+puts "🏁 Banco de dados populado!"
+puts "🚀 Teste com usuário: 'Matheus_Dev' / Senha: '123456'"

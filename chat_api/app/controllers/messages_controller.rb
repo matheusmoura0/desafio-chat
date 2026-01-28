@@ -5,13 +5,11 @@ class MessagesController < ApplicationController
   def index
     other_user = User.find(params[:other_user_id])
     
-    # Busca conversa
     messages = Message.where(sender: @current_user, receiver: other_user)
                       .or(Message.where(sender: other_user, receiver: @current_user))
-                      .order(created_at: :desc) # Mais recentes primeiro para paginação funcionar bem
-                      .page(params[:page]).per(10) # Kaminari: 10 por página
+                      .order(created_at: :desc)
+                      .page(params[:page]).per(10)
 
-    # Serialização com jsonapi-serializer
     options = {
       meta: { current_page: messages.current_page, total_pages: messages.total_pages }
     }
