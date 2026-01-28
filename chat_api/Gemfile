@@ -51,6 +51,5 @@ end
 
 gem 'bcrypt', '~> 3.1.7'      # Senhas
 gem 'jwt'                     # Autenticação
-gem 'rack-cors'               # Permissão pro Vue
 gem 'kaminari'                # Paginação fácil
 gem 'image_processing', '~> 1.2' # Para lidar com imagens (ActiveStorage)
