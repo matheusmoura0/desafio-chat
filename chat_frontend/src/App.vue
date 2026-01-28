@@ -18,6 +18,18 @@ const newMessage = ref('')
 const selectedFile = ref(null)
 const page = ref(1)
 const totalPages = ref(1)
+const metrics = ref({})
+
+
+
+const getMetrics = async () => {
+  try {
+    const res = await api.get('/metrics')
+    metrics.value = res.data.data.attributes // Fix: extracting attributes
+  } catch (e) { console.error(e) }
+}
+
+if (token.value) getMetrics()
 
 const loginData = ref({ username: '', password: '' })
 const doLogin = async () => {
@@ -27,6 +39,7 @@ const doLogin = async () => {
     localStorage.setItem('user', JSON.stringify(res.data.user))
     user.value = res.data.user
     token.value = res.data.token
+    getMetrics()
   } catch (e) { alert('Erro login') }
 }
 
@@ -138,6 +151,13 @@ const formatImageUrl = (url) => {
         <button @click="sendMessage">Enviar</button>
       </div>
     </div>
+  </div>
+
+  <div v-if="token">
+    <h2>Metrics</h2>
+    <p>Total de usuários: {{ metrics.total_users }}</p>
+    <p>Total de mensagens: {{ metrics.total_messages }}</p>
+    <p>Usuários ativos (últimas 24h): {{ metrics.active_users_24h }}</p>
   </div>
 </template>
 
