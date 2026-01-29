@@ -4,44 +4,50 @@ Este projeto é uma aplicação de chat full-stack composta por uma API em Ruby 
 
 ## 📋 Pré-requisitos
 
-*   **Ruby**: 3.x+
-*   **Node.js**: 18+
-*   **SQLite3**
+*   **Docker** e **Docker Compose**
 
-## 🛠️ Configuração e Execução
+---
 
-### 1. Backend (API Rails)
+## 🛠️ Configuração e Execução (Via Docker - Recomendado)
 
-Em um terminal:
+A maneira mais fácil de rodar o projeto é usando Docker:
 
 ```bash
+# 1. Clone o repositório
+git clone https://github.com/matheusmoura/desafio-chat.git
+cd desafio-chat
+
+# 2. Inicie a aplicação
+docker-compose up --build
+```
+
+- **Frontend**: [http://localhost:8080](http://localhost:8080)
+- **Backend API**: [http://localhost:3000](http://localhost:3000)
+
+> [!NOTE]
+> O banco de dados é automaticamente configurado e populado com seeds no primeiro boot do container.
+
+---
+
+## 🛠️ Execução Manual (Alternativa)
+
+Se preferir rodar localmente sem Docker, você precisará de **Ruby 3.3+**, **Node 20+** e **SQLite3**.
+
+### 1. Backend (API Rails)
+```bash
 cd chat_api
-
-# 1. Instale as dependências
 bundle install
-
-# 2. Prepare o banco de dados (Criação, Migração e Seeds)
-rails db:setup  # Isso roda db:create, db:migrate e db:seed automaticamente
-
-# 3. Inicie o servidor (Porta 3000)
+rails db:setup
 rails server
 ```
 
 ### 2. Frontend (Vue.js)
-
-Em OUTRO terminal:
-
 ```bash
 cd chat_frontend
-
-# 1. Instale as dependências
 npm install
-
-# 2. Inicie o servidor de desenvolvimento (Porta 5173 e 2424)
 npm run dev
 ```
-
-Acesse a aplicação em: **http://localhost:5173**
+Acesse em: **http://localhost:5173**
 
 ## 🔑 Usuários para Teste
 
