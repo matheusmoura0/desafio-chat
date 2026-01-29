@@ -19,8 +19,19 @@ const selectedFile = ref(null)
 const page = ref(1)
 const totalPages = ref(1)
 const metrics = ref({})
+const users = ref([])
 
+const getUsers = async () => {
+  try {
+    const res = await api.get('/users')
+    users.value = res.data.data.map(item => ({
+      id: item.id,
+      ...item.attributes
+    }))
+  } catch (e) { console.error(e) }
+}
 
+if (token.value) getUsers()
 
 const getMetrics = async () => {
   try {
@@ -40,6 +51,7 @@ const doLogin = async () => {
     user.value = res.data.user
     token.value = res.data.token
     getMetrics()
+    getUsers()
   } catch (e) { alert('Erro login') }
 }
 
@@ -158,6 +170,15 @@ const formatImageUrl = (url) => {
     <p>Total de usuários: {{ metrics.total_users }}</p>
     <p>Total de mensagens: {{ metrics.total_messages }}</p>
     <p>Usuários ativos (últimas 24h): {{ metrics.active_users_24h }}</p>
+  </div>
+
+  <div v-if="token">
+    <h2>Usuários</h2>
+    <ul>
+      <li v-for="user in users" :key="user.id">
+        {{ user.username }} - {{ user.id }}
+      </li>
+    </ul>
   </div>
 </template>
 
