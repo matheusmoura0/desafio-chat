@@ -172,13 +172,11 @@ const formatImageUrl = (url) => {
     <p>Usuários ativos (últimas 24h): {{ metrics.active_users_24h }}</p>
   </div>
 
-  <div v-if="token">
-    <h2>Usuários</h2>
-    <ul>
-      <li v-for="user in users" :key="user.id">
-        {{ user.username }} - {{ user.id }}
-      </li>
-    </ul>
+  <div v-if="token" class="users-list">
+    <strong>Usuários:</strong>
+    <span v-for="u in users" :key="u.id" class="user-item">
+      {{ u.username }} ({{ u.id }})
+    </span>
   </div>
 </template>
 
@@ -252,4 +250,18 @@ body { font-family: sans-serif; padding: 20px; }
   text-align: center;
 }
 .login-container input { display: block; margin: 10px auto; }
+
+.users-list {
+  padding: 10px;
+  border-top: 1px solid black;
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.user-item {
+  color: #333;
+  font-size: 0.9rem;
+}
 </style>
