@@ -25,7 +25,7 @@ const metrics = ref({})
 const getMetrics = async () => {
   try {
     const res = await api.get('/metrics')
-    metrics.value = res.data.data.attributes // Fix: extracting attributes
+    metrics.value = res.data.data.attributes
   } catch (e) { console.error(e) }
 }
 

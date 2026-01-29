@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
   post '/login', to: 'authentication#login'
-  get '/users', to: 'users#index' # Crie um UsersController simples se precisar listar
-  
+  get '/users', to: 'users#index'   
   get '/messages/:other_user_id', to: 'messages#index'
   post '/messages', to: 'messages#create'
   
