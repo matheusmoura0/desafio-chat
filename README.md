@@ -60,3 +60,10 @@ Estes usuários já são criados automaticamente pelo comando `rails db:setup` (
 *   **Upload de Arquivos**: Envio imagens.
 *   **Histórico**: Persistência de mensagens no banco de dados.
 *   **Layout Minimalista**: Interface limpa e funcional.
+ 
+
+## Diferenciais
+
+*   **Mecanismo de autenticação**: JWT
+*   **Paginação**: Carregamento de mensagens antigas com o Kaminari
+*   **Upload de Arquivos**: Envio imagens.
